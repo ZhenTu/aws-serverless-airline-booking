@@ -65,8 +65,6 @@ deploy: ##=> Deploy booking service using SAM
 		--parameter-overrides \
 			BookingTable=/$${AWS_BRANCH}/service/amplify/storage/table/booking \
 			FlightTable=/$${AWS_BRANCH}/service/amplify/storage/table/flight \
-			CollectPaymentFunction=/$${AWS_BRANCH}/service/payment/function/collect \
-			RefundPaymentFunction=/$${AWS_BRANCH}/service/payment/function/refund \
 			AppsyncApiId=/$${AWS_BRANCH}/service/amplify/api/id \
 			Stage=$${AWS_BRANCH} \
 			SharedLibsLayer=/$${AWS_BRANCH}/shared/lambda/layers/projectArn

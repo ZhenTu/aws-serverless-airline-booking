@@ -27,13 +27,17 @@ Parameters:
         Type: String
         Description: Environment stage or git branch
 
-    CollectPaymentFunction:
-        Type: AWS::SSM::Parameter::Value<String>
-        Description: Parameter Name for Collect Payment Function ARN
+    #CollectPaymentFunction:
+    #    #Type: AWS::SSM::Parameter::Value<String>
+    #    Type: String
+    #    Default: "*"
+    #    Description: Parameter Name for Collect Payment Function ARN
 
-    RefundPaymentFunction:
-        Type: AWS::SSM::Parameter::Value<String>
-        Description: Parameter Name for Refund Payment Function ARN
+    #RefundPaymentFunction:
+    #    #Type: AWS::SSM::Parameter::Value<String>
+    #    Type: String
+    #    Default: "*"
+    #    Description: Parameter Name for Refund Payment Function ARN
 
     AppsyncApiId:
         Type: AWS::SSM::Parameter::Value<String>
@@ -178,8 +182,8 @@ Resources:
                                 - !Sub ${CancelBooking.Arn}
                                 - !Sub ${ConfirmBooking.Arn}
                                 - !Sub ${NotifyBooking.Arn}
-                                - !Ref CollectPaymentFunction
-                                - !Ref RefundPaymentFunction
+                                #- !Ref CollectPaymentFunction
+                                #- !Ref RefundPaymentFunction
                 - PolicyName: FlightTableUpdate
                   PolicyDocument:
                       Version: 2012-10-17
@@ -290,7 +294,7 @@ Resources:
                                 }
                             ],
                             "ResultPath": "$.bookingId",
-                            "Next": "Collect Payment"
+                            "Next": "Confirm Booking"
                         },
                         "Release Flight Seat": {
                             "Type": "Task",
@@ -334,21 +338,6 @@ Resources:
                             ],
                             "ResultPath": null,
                             "Next": "Notify Booking Failed"
-                        },
-                        "Collect Payment": {
-                            "Type": "Task",
-                            "Resource": "${CollectPaymentFunction}",
-                            "Catch": [
-                                {
-                                    "ErrorEquals": [
-                                        "States.ALL"
-                                    ],
-                                    "ResultPath": "$.paymentError",
-                                    "Next": "Cancel Booking"
-                                }
-                            ],
-                            "ResultPath": "$.payment",
-                            "Next": "Confirm Booking"
                         },
                         "Cancel Booking": {
                             "Type": "Task",
@@ -394,26 +383,11 @@ Resources:
                                         "States.ALL"
                                     ],
                                     "ResultPath": "$.bookingError",
-                                    "Next": "Refund Payment"
+                                    "Next": "Cancel Booking"
                                 }
                             ],
                             "ResultPath": "$.bookingReference",
                             "Next": "Notify Booking Confirmed"
-                        },
-                        "Refund Payment": {
-                            "Type": "Task",
-                            "Resource": "${RefundPaymentFunction}",
-                            "Catch": [
-                                {
-                                    "ErrorEquals": [
-                                        "States.ALL"
-                                    ],
-                                    "ResultPath": "$.paymentError",
-                                    "Next": "Cancel Booking"
-                                }
-                            ],
-                            "ResultPath": null,
-                            "Next": "Cancel Booking"
                         },
                         "Notify Booking Failed": {
                             "Type": "Task",
