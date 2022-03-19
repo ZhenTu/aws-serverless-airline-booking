@@ -21,7 +21,7 @@ init: ##=> Install OS deps and dev tools
 deploy: ##=> Deploy services
 	$(info [*] Deploying...)
 	$(MAKE) deploy.shared-lambda-layers
-	$(MAKE) deploy.payment
+	#$(MAKE) deploy.payment
 	$(MAKE) deploy.booking
 	$(MAKE) deploy.loyalty
 ## Enable the deploy.perftest if you need to deploy the performance test stack
