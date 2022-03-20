@@ -270,7 +270,7 @@ export default {
         country: '',
         postcode: '',
         countryOptions: countryList,
-        isCardInvalid: true
+        isCardInvalid: false
       },
       selectedFlight: this.flight
     }
