@@ -23,18 +23,22 @@ import { getLoyalty } from './graphql'
  *    }
  * }
  */
-export async function fetchLoyalty({ commit }) {
+export async function fetchLoyalty({ commit, rootGetters }) {
   Loading.show({
     message: 'Loading profile...'
   })
-
+  var nextToken = paginationToken || null
   console.group('store/loyalty/actions/fetchLoyalty')
   try {
+    const customerId = rootGetters['profile/userAttributes'].sub
+    const loyaltyFilter = {
+      customer: customerId
+    }
     console.log('Fetching loyalty data')
     const {
       // @ts-ignore
       data: { getLoyalty: loyaltyData }
-    } = await API.graphql(graphqlOperation(getLoyalty))
+    } = await API.graphql(graphqlOperation(getLoyalty, loyaltyFilter))
     const loyalty = new Loyalty(loyaltyData)
 
     console.log(loyalty)
