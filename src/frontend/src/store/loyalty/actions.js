@@ -24,11 +24,9 @@ import { getLoyalty } from './graphql'
  * }
  */
 export async function fetchLoyalty({ commit, rootGetters }) {
-  Loading.show({
-    message: 'Loading profile...'
-  })
-  var nextToken = paginationToken || null
   console.group('store/loyalty/actions/fetchLoyalty')
+
+  Loading.show({ message: 'Loading profile...' })
   try {
     const customerId = rootGetters['profile/userAttributes'].sub
     const loyaltyFilter = {

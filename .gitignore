@@ -671,3 +671,10 @@ amplifytools.xcconfig
 .secret-*
 **.sample
 #amplify-do-not-edit-end
+
+#begin add by jacel
+amplify/backend/types/
+amplify/cli.json
+amplify/team-provider-info.json 
+amplify/.config/project-config.json
+#end add by jacel
