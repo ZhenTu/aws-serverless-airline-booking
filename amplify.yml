@@ -56,7 +56,7 @@ frontend:
       commands: []
   artifacts:
     # IMPORTANT - Please verify your build output directory
-    baseDirectory: /
+    baseDirectory: src/frontend/public
     files:
       - '**/*'
   cache:
